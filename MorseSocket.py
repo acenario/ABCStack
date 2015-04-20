@@ -150,7 +150,8 @@ class SocketServerLayer(StackLayer):
                     print('Dest IP:', message[2:4])
                     print('Check Sum:', message[5:9])
                     given_checksum = message[5:9]
-                    calculated_checksum = self.checksum(message[0:2] + message[2:4])
+                    # calculated_checksum = self.checksum(message[0:2] + message[2:4])
+                    calculated_checksum = testIPv4chksum(message[0:2] + message[2:4])
                     print('Calculated Check Sum:', calculated_checksum)
                     if given_checksum == calculated_checksum:
                         print("CHECKSUM VALIDATED!")
@@ -173,14 +174,49 @@ class SocketServerLayer(StackLayer):
 
         #TODO CALCULATE CHECKSUM
         checksum = 'CCCC'
-        checksum = self.checksum(self.src_ip + morse_dest_ip)
+        # checksum = self.checksum(self.src_ip + morse_dest_ip)
+        checksum = createIPv4chksum(self.src_ip, morse_dest_ip)
         transport = morse_source_port + morse_dest_port + message
-
         
         message = self.src_ip + morse_dest_ip + sb.SOCK_DGRAM + checksum + transport
         self.sockets_message.put(message)
         return message
-
+        
+    def createIPv4chksum(sourceLAN, destLAN): 
+        header = bytearray(sourceLAN + destLAN ,encoding="UTF-8") 
+        decsum = 0 
+        for item in header: 
+            decsum += int(item) 
+            print(bin(decsum)) 
+        binsumflip = bin(decsum)[2:] 
+        binsumflip = "0" * (16-len(binsumflip)) + binsumflip print(binsumflip) 
+        binsum = "" 
+        for char in binsumflip: 
+            if char == "0": 
+                binsum+= "1" 
+            else: 
+                binsum+= "0" 
+        return(hex(int(binsum,2))[2:].upper()) 
+                        
+    def testIPv4chksum(header): 
+        header = bytearray(header,encoding="UTF-8") 
+        decsum = 0 
+        for item in header[0:5]: #non checksum parts 
+            decsum += int(item) 
+        decsum += int(header[5:],16) 
+        # checksum has to be converted from hex instead of ascii 
+        binsumflip = bin(decsum)[2:] 
+        binsum = "" 
+        for char in binsumflip: 
+            if char == "0": 
+                binsum+= "1" 
+            else: 
+                binsum+= "0" 
+        if(int(binsum)) == 0: 
+            return True 
+        else: 
+            return False
+            
     def checksum(self,header):
         xheader=[]
         nxheader= 0
