@@ -189,7 +189,8 @@ class SocketServerLayer(StackLayer):
             decsum += int(item) 
             print(bin(decsum)) 
         binsumflip = bin(decsum)[2:] 
-        binsumflip = "0" * (16-len(binsumflip)) + binsumflip print(binsumflip) 
+        binsumflip = "0" * (16-len(binsumflip)) + binsumflip 
+        print(binsumflip) 
         binsum = "" 
         for char in binsumflip: 
             if char == "0": 
