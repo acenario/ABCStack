@@ -74,13 +74,6 @@ can publish its port address (5280).
         if (len(payload) != 0):
             print("BARRAY: ", bytearray_msg)
             bytearray_msg = bytearray(payload, encoding="UTF-8")
-            #import json
-            #msg = {}
-            #msg["PAYLOAD"] = bytearray_msg.decode("UTF-8")
-            #msg["PAYLOAD"] = bytearray_msg
-            #msg["SOURCE"] = source_address
-            #encoded_message = json.dumps(msg)
-            #bytearray_msg = bytearray(encoded_message,encoding="UTF-8")
             print("SRC ADDRESS: ", str(source_address))
             for c in self.clients:
                 if (c != source_address):

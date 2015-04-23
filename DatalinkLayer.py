@@ -53,7 +53,9 @@ class DatalinkLayer(StackLayer):
         self.iptable.read('iptable.ini')
         try:
             #CHECK CACHE FOR MESSAGE
-            dest_mac = self.iptable['IPTABLE'][message[1]].replace("'", "")
+            dest_mac = self.iptable['IPTABLE'][message[3]].replace("'", "")
+            print('DEST MAC FROM CACHE:', dest_mac)
+            print('IP LOOKUP:', message[3])
         except:
             #SEND MESSAGE TO ROUTER
             self.config.read('config.ini')
