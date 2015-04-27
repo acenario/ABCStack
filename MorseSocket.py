@@ -253,6 +253,8 @@ class SocketServerLayer(StackLayer):
 
     def sendMessage(self, message, src_addr, dest_addr):
         for port, morse_port in self.port_map.items():
+            if len(str(morse_port)) == 1:
+                morse_port = "0" + str(morse_port)
             if str(dest_addr[1]) == str(morse_port):
                 rpc = serialize("message", {"message": message, "addr": src_addr})
                 self.sock.sendto(rpc, ("localhost", port))

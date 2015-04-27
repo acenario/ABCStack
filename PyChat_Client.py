@@ -36,7 +36,7 @@ class UDP_Client(object):
 
 
                 print("\n" + "=== MESSAGE RECEIVED ===")
-                out = "\n" + "<" + str(source_IP) + ":" + str(source_port) + ">" + ": " + payload
+                out = "\n" + "<" + str(source_IP) + ":" + str(source_port) + ", " + payload[:13] + ">" + ": " + payload[13:]
                 print(out)
                 print("\n" + "=== MESSAGE ENDED ===" + "\n")
 
