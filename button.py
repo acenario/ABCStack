@@ -2,7 +2,7 @@ import RPi.GPIO as GPIO
 import time
 import lcd
 
-def wait(pin,message,blink):
+def wait(pin,message,blink=False):
     GPIO.setmode(GPIO.BCM)
     lcd.LCD_Write(message,blink)
     GPIO.setup(pin,GPIO.IN)
