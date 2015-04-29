@@ -55,6 +55,8 @@ class PhysicalLayer(StackLayer):
             print('Stop Sequence Received')
             translation = self.translate(self.pulse_list)
             print("Translation to Datalink: " + str(translation))
+            btn_message = "Layer: Physical\nMessage Received:\n" + str(translation)
+            button.wait("Layer: Physical\nMessage Received:\n")
             self.above_queue.put(self.get_payload(translation))
             self.reading = False
 
@@ -87,6 +89,8 @@ class PhysicalLayer(StackLayer):
         delay(1) # for detecting the last pulse
 
     def pass_down(self, message):
+        btn_message = "Layer: Physical\nStart Transmitting:\n" + str(message)
+        button.wait(btn_message)
         self.transmit(message)
 
     def receive(self):
