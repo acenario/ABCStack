@@ -8,6 +8,7 @@ import RPi.GPIO as GPIO
 import queue
 import configparser
 import threading
+import button
 
 class ABCStack(object):
     def __init__(self, classes):
@@ -70,4 +71,5 @@ class ABCStack(object):
             message = " "
             self.pass_down(len(self.layers)-2, message)
         else:
+            button.wait("Stack has started!")
             message = input('=== ABC Stack has initialized ===')
