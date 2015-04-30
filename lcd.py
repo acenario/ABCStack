@@ -20,7 +20,7 @@ lcd = LCD.Adafruit_CharLCD(lcd_rs, lcd_en, lcd_d4, lcd_d5, lcd_d6, lcd_d7, lcd_c
 
 
 def LCD_Write(string, blink_cursor=False):
-
+        string = translate_to_lines(string)
 	#Clear the LCD
 	lcd.clear()
 	lcd.show_cursor(False)
@@ -29,6 +29,14 @@ def LCD_Write(string, blink_cursor=False):
 	lcd.message(string)
 	if blink_cursor:
 		lcd.blink(True)
+
+def translate_to_lines(message):
+	if "\n" in message:
+		msg = message.split("\n")
+		combined = "\n".join(msg)
+		return combined
+	return message
+                
 
 def kill():
 	lcd.clear()

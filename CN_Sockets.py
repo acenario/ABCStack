@@ -9,7 +9,7 @@ to add support for keyboard interrupt (ctl-C)
     def __exit__(self,argException,argString,argTraceback):
         
         if argException is KeyboardInterrupt:
-            print (argString)
+            #print (argString)
             self.close()   # return socket resources on ctl-c keyboard interrupt
             return True
         
