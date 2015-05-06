@@ -5,6 +5,7 @@ import time
 import configparser
 import time
 import sys
+import button
 
 if __name__ == '__main__':
     config = configparser.ConfigParser()
@@ -18,6 +19,7 @@ if __name__ == '__main__':
     if mac == '*':
         sys.stdout.write('Waiting for you to set your mac')
         sys.stdout.flush()
+        button.no_wait("Please set MAC", True)
     
     while mac == '*':
         sys.stdout.write('.')
@@ -28,6 +30,7 @@ if __name__ == '__main__':
     
     if router == ' ':
         print('Sending Informational Packet...')
+        button.no_wait("DHCP Initializing\nAsking for IP...", True)
         abc.prompt(informational=True)
 
     #Checking to see if I received a packet from the router
@@ -38,12 +41,18 @@ if __name__ == '__main__':
         router = config['CONFIG']['router'].replace("'", "")
         if (count % 16 == 0):
             print('\n Sending Informational Packet again...')
+            m = "DHCP Initializing\nAsking for IP...\nAgain... " + " ( " + str(count) + ")"
+            button.no_wait(m, True)
             abc.prompt(informational=True)
             count = 0
         count += 1
         time.sleep(2)
         
     print('ROUTER FOUND:', router)
+    b = "DHCP Initialized\nRouter MAC: " + str(router)
+    button.no_wait(b)
+    c = "Push to start:\n ABC Stack"
+    button.wait(c, blink=True)
     
     while True:
         abc.prompt()

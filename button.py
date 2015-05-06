@@ -14,7 +14,6 @@ def wait(message,pin=12,blink=False):
     GPIO.wait_for_edge(pin,GPIO.RISING)
     counter = 0
     while(True):
-        print(counter)
         if GPIO.input(pin):
             counter = 0
         else:
@@ -48,4 +47,5 @@ def send_to_lcd(message, blink):
 if __name__ == "__main__":
     print("Waiting")
     wait("Hello\nHello\nBye\nBye",12,False)
+    wait("DIE\nHello\nBye\nBye",12,False)
     print("Done")
