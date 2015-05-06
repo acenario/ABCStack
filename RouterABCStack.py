@@ -19,6 +19,11 @@ class RouterABCStack(ABCStack):
         iptable.write(iptable_file)
         iptable_file.close()
 
+        config_file = open('config.ini', 'w')
+        config.set('CONFIG', 'router', config['CONFIG']['mac'].replace("'", ""))
+        config.write(config_file)
+        config_file.close()
+
         listen_thread = Thread(target=self.receive, args=())
         listen_thread.start()
         
