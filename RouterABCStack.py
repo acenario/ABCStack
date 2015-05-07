@@ -4,6 +4,7 @@ from RouterDatalinkLayer import RouterDatalinkLayer
 import configparser
 from threading import Thread
 import CN_Sockets
+import button
 
 class RouterABCStack(ABCStack):
     def __init__(self, classes):
@@ -30,6 +31,8 @@ class RouterABCStack(ABCStack):
         while(True):
             message = self.layers[len(self.layers)-1].above_queue.get()
             print("STACK RECEIVED: " + message)
+            m = "ABC Router\nStack Received:\n" + message
+            button.no_wait(m)
             #SENDING MESSAGE FROM DATALINKLAYER TO PHYSICAL
             self.pass_down(len(self.layers)-2, message)
         

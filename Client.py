@@ -36,12 +36,14 @@ if __name__ == '__main__':
     #Checking to see if I received a packet from the router
     #Tries again every 30 seconds
     count = 1
+    attempts = 1
     while router == ' ':
         config.read('config.ini')
         router = config['CONFIG']['router'].replace("'", "")
         if (count % 16 == 0):
             print('\n Sending Informational Packet again...')
-            m = "DHCP Initializing\nAsking for IP...\nAgain... " + " ( " + str(count) + ")"
+            attempts += 1
+            m = "DHCP Initializing\nAsking for IP...\nAgain... " + " ( " + str(attempts) + ")"
             button.no_wait(m, True)
             abc.prompt(informational=True)
             count = 0
