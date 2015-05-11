@@ -1,5 +1,6 @@
 from DatalinkLayer import DatalinkLayer
 import CN_Sockets
+import button
 
 
 class RouterDatalinkLayer(DatalinkLayer):
@@ -24,6 +25,8 @@ class RouterDatalinkLayer(DatalinkLayer):
             dest_mac = ' '
 
         ip_protocol = 'A'
+        m = self.src_mac + dest_mac + ip_protocol + message
+        button.no_wait(m)
         return self.src_mac + dest_mac + ip_protocol + message
 
     def receive(self):
@@ -105,6 +108,7 @@ class RouterDatalinkLayer(DatalinkLayer):
                                message)
 
                           # passing down routed message with found mac address
+                        button.no_wait(message)
 
                         self.above_queue.put(message)
                     else:
