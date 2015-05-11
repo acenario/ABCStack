@@ -53,7 +53,7 @@ if __name__ == '__main__':
     print('ROUTER FOUND:', router)
     b = "DHCP Initialized\nRouter MAC: " + str(router)
     button.no_wait(b)
-    c = "Push to start:\n ABC Stack"
+    c = "Push to start:\nABC Stack"
     button.wait(c, blink=True)
     
     while True:

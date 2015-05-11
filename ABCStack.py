@@ -72,4 +72,7 @@ class ABCStack(object):
             self.pass_down(len(self.layers)-2, message)
         else:
             button.no_wait("Stack has started!")
-            message = input('=== ABC Stack has initialized ===')
+            button.wait("Push to send...")
+            message = "A1A1CCCCHI"
+            self.pass_down(len(self.layers)-2, message)
+            #message = input('=== ABC Stack has initialized ===')

@@ -5,6 +5,7 @@ import queue
 import threading
 from StackLayer import StackLayer
 import configparser 
+import button
 
 # Move constants to this namespace
 AF_INET = sb.AF_INET
@@ -131,6 +132,14 @@ class SocketServerLayer(StackLayer):
                 dest_ip = message[2:4]
                 src_port = message[9:11]
                 dest_port = message[11:13]
+
+                m = message[0:9]
+                btn_message = "Layer: Network\n" + "Message:\n" + m +  "\nPush to continue..."
+                button.no_wait(btn_message)
+
+                btn_message = "Layer: Transport\n" + "Message:\n" + message +  "\nPush to continue..."
+                button.no_wait(btn_message)
+ 
                 self.sendMessage(message, (sb.morse2ipv4(src_ip), src_port), (sb.morse2ipv4(dest_ip), dest_port))
                 self.config.read('config.ini')
                 #CHECK TO SEE IF THE PACKET IS PURELY INFORMATIONAL
@@ -176,8 +185,15 @@ class SocketServerLayer(StackLayer):
         checksum = self.checksum(self.src_ip + morse_dest_ip)
         transport = morse_source_port + morse_dest_port + message
 
-        
+        m = self.src_ip + morse_dest_ip + sb.SOCK_DGRAM + checksum
         message = self.src_ip + morse_dest_ip + sb.SOCK_DGRAM + checksum + transport
+
+        btn_message = "Layer: Transport\n" + "Message:\n" + message +  "\nPush to continue..."
+        button.no_wait(btn_message)
+
+        btn_message = "Layer: Network\n" + "Message:\n" + m +  "\nPush to continue..."
+        button.no_wait(btn_message)
+
         self.sockets_message.put(message)
         return message
 

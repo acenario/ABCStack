@@ -1,5 +1,6 @@
 from StackLayer import StackLayer
 import configparser
+import button
 
 class DatalinkLayer(StackLayer):
     def __init__(self, below_queue):
@@ -14,7 +15,12 @@ class DatalinkLayer(StackLayer):
         self.src_mac = self.config['CONFIG']['mac'].replace("'", "")
 
     def pass_down(self, message):
-        return self.append_header(message)
+        msg = self.append_header(message)
+        
+        btn_message = "Layer: Datalink\nMessage:\n" + str(message) + "\nPush to continue..."
+        button.no_wait(btn_message)
+        
+        return msg
 
     def receive(self):
         while True:
@@ -23,7 +29,7 @@ class DatalinkLayer(StackLayer):
                 print('Message from Physical:', message)
                 src_mac = message[0]
                 dest_mac = message[1]
-                
+
                 if dest_mac == self.src_mac:
                     ip_protocol = message[2]
 
@@ -67,10 +73,16 @@ class DatalinkLayer(StackLayer):
         self.config.read('config.ini')
         self.src_mac = self.config['CONFIG']['mac'].replace("'", "")
         
+        m = self.src_mac + dest_mac + ip_protocol + message
+        btn_message = "Layer: Datalink\n" + "Message:\n" + m +  "\nPush to continue..."
+        button.wait(btn_message)
+
         return self.src_mac + dest_mac + ip_protocol + message
 
     def get_payload(self, message):
         if (message):
+            btn_message = "Layer: Datalink\n" + "Message:\n" + message[3:] +  "\nPush to continue..."
+            button.wait(btn_message)
             return message[3:]
         return message
 
